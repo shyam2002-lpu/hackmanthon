@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventEye - Login / Signup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2 id="formTitle">Login</h2>
+    <div id="errorMsg" class="error"></div>
+
+    <!-- Signup fields -->
+    <input type="text" id="name" placeholder="Full Name" style="display:none;">
+    <input type="text" id="phone" placeholder="Phone Number" style="display:none;">
+    <input type="email" id="email" placeholder="Email" style="display:none;">
+
+    <!-- Common fields -->
+    <input type="text" id="loginId" placeholder="Phone / Email">
+    <input type="password" id="password" placeholder="Password">
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" style="display:none;">
+
+    <button id="submitBtn" onclick="submitForm()">Login</button>
+    <span class="toggle" id="toggleLink" onclick="toggleForm()">Don't have an account? Sign Up</span>
+  </div>
+
+  <script>
+    let isLogin = true;
+
+    function toggleForm() {
+      document.getElementById('name').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('phone').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('email').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('confirmPassword').style.display = isLogin ? 'block' : 'none';
+
+      const formTitle = document.getElementById('formTitle');
+      const submitBtn = document.getElementById('submitBtn');
+      const toggleLink = document.getElementById('toggleLink');
+
+      if(isLogin){
+        formTitle.textContent = 'Sign Up';
+        submitBtn.textContent = 'Sign Up';
+        toggleLink.textContent = 'Already have an account? Login';
+      } else {
+        formTitle.textContent = 'Login';
+        submitBtn.textContent = 'Login';
+        toggleLink.textContent = "Don't have an account? Sign Up";
+      }
+
+      document.getElementById('errorMsg').style.display = 'none';
+      isLogin = !isLogin;
+    }
+
+    function submitForm() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const loginId = document.getElementById('loginId').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+
+      errorMsg.style.display = 'none';
+
+      if(isLogin){
+        const user = JSON.parse(localStorage.getItem('eventeyeUser') || '{}');
+        if((user.email === loginId || user.phone === loginId) && user.password === password){
+          localStorage.setItem('loggedIn', 'true');  // Save login state
+          window.location.href = 'dashboard.html';
+        } else {
+          errorMsg.textContent = 'Invalid login credentials';
+          errorMsg.style.display = 'block';
+        }
+      } else {
+        if(!name || !phone || !email || !password || !confirmPassword){
+          errorMsg.textContent = 'Please fill all fields';
+          errorMsg.style.display = 'block';
+          return;
+        }
+        if(password !== confirmPassword){
+          errorMsg.textContent = 'Passwords do not match';
+          errorMsg.style.display = 'block';
+          return;
+        }
+
+        localStorage.setItem('eventeyeUser', JSON.stringify({ name, phone, email, password }));
+        alert('✅ Signup successful! Please login.');
+        toggleForm();
+        document.querySelectorAll("input").forEach(input => input.value = "");
+      }
+    }
+  </script>
+</body>
+</html>

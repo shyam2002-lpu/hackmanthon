@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventEye - Certificate Automation</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #ff9a76, #ff6a88);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #d84315;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      font-size: 22px;
+      letter-spacing: 1px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+    }
+    .container {
+      padding: 25px;
+      max-width: 1100px;
+      margin: 30px auto;
+      background: #ffffffd9;
+      border-radius: 12px;
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+    }
+    h3 {
+      margin-top: 0;
+      color: #d84315;
+    }
+    .form-section {
+      background: #fff7f0;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .form-section input {
+      flex: 1;
+      min-width: 150px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: 0.3s;
+    }
+    .form-section input:focus {
+      border-color: #ff7043;
+      box-shadow: 0px 0px 6px rgba(255, 112, 67, 0.6);
+    }
+    .form-section button {
+      background: #ff5722;
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .form-section button:hover {
+      background: #e64a19;
+      transform: scale(1.05);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background: #ff7043;
+      color: white;
+    }
+    .status {
+      font-weight: bold;
+      padding: 6px 8px;
+      border-radius: 5px;
+    }
+    .pending { color: #f57c00; }
+    .delivered { color: green; }
+    .btn-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .btn-actions button {
+      flex: 1;
+      padding: 14px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-send {
+      background: #4caf50;
+      color: white;
+    }
+    .btn-send:hover {
+      background: #388e3c;
+    }
+    .btn-logout {
+      background: #f44336;
+      color: white;
+    }
+    .btn-logout:hover {
+      background: #d32f2f;
+    }
+    footer {
+      background: #d84315;
+      text-align: center;
+      padding: 12px;
+      color: white;
+      margin-top: 30px;
+      border-radius: 0 0 12px 12px;
+    }
+  </style>
+  <!-- QRCode Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+  <header>
+    🎓 EventEye - AI Certificate Automation
+  </header>
+
+  <div class="container">
+    <div class="form-section">
+      <h3>Add Participant</h3>
+      <input type="text" id="pname" placeholder="Name">
+      <input type="email" id="pemail" placeholder="Email">
+      <input type="text" id="pevent" placeholder="Event">
+      <input type="date" id="pdate">
+      <input type="text" id="porganizer" placeholder="Organizer">
+      <button onclick="addParticipant()">➕ Add</button>
+    </div>
+
+    <table id="participantsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Event</th>
+          <th>Date</th>
+          <th>Organizer</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="btn-actions">
+      <button class="btn-send" onclick="sendCertificates()">📩 Send Certificates</button>
+      <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 EventEye | AI-Powered Certificate System
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
